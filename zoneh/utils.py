@@ -1,6 +1,8 @@
+import os
 from bs4 import BeautifulSoup
 from playwright.sync_api import Page
 from config import BASE_URL
+import json
 
 
 def get_existing_cookies():
@@ -12,15 +14,14 @@ def get_existing_cookies():
             at the login page.
     """
 
-    cookies = {
-        'ZHE': 'e23d5dc70ab48f71fb062a456482c611',
-        'PHPSESSID': 'rkhn0irffnfk0007f20btf5l25'
-    }
+    with open(r"./cookies.jsonl", "r", encoding='utf-8') as f:
+        cookies_string = f.read()
 
-    desired_cookies_string = "; ".join(
-        f"{name}={value}" for name, value in cookies.items())
+        # print(cookies_string)
+        jsonified = json.loads(cookies_string)
 
-    print(desired_cookies_string)
+        desired_cookies_string = "; ".join(
+            f"{name}={value}" for name, value in jsonified.items())
 
     return desired_cookies_string
 
@@ -94,6 +95,9 @@ def add_playwright_cookies_to_requests(session, playwright_cookies):
             domain=domain,
             path=cookie["path"]
         )
+
+    with open(r"./cookies.jsonl", "w", encoding='utf-8') as f:
+        json.dump(session.cookies.get_dict(), f, ensure_ascii=False)
 
 
 def visit_zoneh_after_login(page: Page):

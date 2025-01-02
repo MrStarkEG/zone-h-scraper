@@ -52,14 +52,14 @@ def get_captcha_screenshot(page):
     return os.path.abspath("captcha.jpeg")
 
 
-def solve_captcha_screenshot(img_path):
+def solve_captcha_screenshot(img_path, api_solver_key: str = ANTICAPTCHA_KEY):
     """
     Solve the captcha screenshot using the anticaptcha API.
     """
 
     solver = imagecaptcha()
     solver.set_verbose(1)
-    solver.set_key(ANTICAPTCHA_KEY)
+    solver.set_key(api_solver_key)
     solver.set_soft_id(0)
 
     captcha_text = solver.solve_and_return_solution(img_path)

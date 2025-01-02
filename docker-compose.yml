@@ -1,0 +1,14 @@
+version: '3.8'
+
+services:
+  zoneh:
+    build: .
+    container_name: zoneh
+    volumes:
+      - .:/app
+    env_file:
+      - .env
+    environment:
+      - PYTHONUNBUFFERED=1
+      - DISPLAY=:99
+    restart: unless-stopped

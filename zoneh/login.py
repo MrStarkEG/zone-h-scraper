@@ -1,3 +1,4 @@
+import requests
 from tenacity import retry, stop_after_attempt, wait_fixed, retry_if_exception_type
 
 from config import USERNAME, PASSWORD
@@ -40,6 +41,8 @@ def login_to_zoneh_using_requests(session, username: str = USERNAME, password: s
     }
 
     response = session.post(url, headers=headers, data=credentials)
+
+    # print(credentials)
 
     if response.status_code == 200 and "Logout" in response.text:
         print("Login successful")
