@@ -33,7 +33,7 @@ if __name__ == "__main__":
             page)
 
         add_playwright_cookies_to_requests(session, cookies_after_captcha)
-        page.close()
+        page.close_browser()
 
         # The magic happens here
         scrape_archive_section(session)
